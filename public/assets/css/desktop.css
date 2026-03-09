@@ -1,0 +1,305 @@
+/* Prevent page scrolling and remove default margins */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Desktop */
+
+.desktop {
+  background: teal;
+  height: 100vh;
+  padding: 20px;
+  padding-bottom: 60px; /* prevents icons under taskbar */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Desktop icons */
+
+.desktop-icons {
+  position: relative;
+  width: 100px;
+}
+
+.icon {
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  width: 90px;
+  padding: 4px;
+  position: absolute;
+}
+
+.icon:nth-child(1) { top: 20px; left: 20px; }
+.icon:nth-child(2) { top: 120px; left: 20px; }
+.icon:nth-child(3) { top: 220px; left: 20px; }
+.icon:nth-child(4) { top: 320px; left: 20px; }
+.icon:nth-child(5) { top: 420px; left: 20px; }
+.icon:nth-child(6) { top: 20px; left: 1120px; }
+
+
+.icon img {
+  width: 48px;
+  height: 48px;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 6px;
+
+  image-rendering: pixelated;
+}
+
+.icon:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.icon.selected {
+  background: #000080;
+  color: white;
+}
+
+/* Application windows */
+
+.app-window {
+  width: 300px;
+  position: absolute;
+  top: 120px;
+  left: 200px;
+}
+
+/* Taskbar */
+
+.taskbar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: #c0c0c0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 2px;
+
+  box-shadow: inset 1px 1px white, inset -1px -1px gray;
+}
+
+/* Start button */
+
+#start-button{
+  font-weight: bold;
+  min-width: 70px;
+}
+
+/* Start menu */
+
+.start-menu{
+  position: fixed;
+  bottom: 34px;
+  left: 4px;
+
+  width: 260px;
+
+  display: none;
+}
+
+.start-menu-inner{
+  display: flex;
+}
+
+/* Start menu sidebar */
+
+.start-menu-sidebar{
+  width: 40px;
+
+  background: linear-gradient(#000080,#1084d0);
+
+  color: white;
+
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+/* Start menu items */
+
+.start-menu-items{
+  flex: 1;
+  padding: 6px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.start-item{
+  padding: 4px;
+  cursor: pointer;
+}
+
+.start-item:hover{
+  background: #000080;
+  color: white;
+}
+
+.terminal {
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  height: 200px;
+  padding: 6px;
+  overflow-y: auto;
+}
+
+.terminal-input-line {
+  display: flex;
+  gap: 5px;
+}
+
+#terminal-input {
+  background: black;
+  color: #00ff00;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: monospace;
+}
+
+.notepad {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+}
+
+.notepad-menu {
+  background: #c0c0c0;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-bottom: 1px solid #808080;
+}
+
+.notepad-text {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  resize: none;
+
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+
+  padding: 6px;
+
+  background: white;
+  color: black;
+}
+
+.explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.explorer-header {
+  font-weight: bold;
+}
+
+.explorer-files {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.explorer-file {
+  padding: 4px;
+  cursor: pointer;
+}
+
+.explorer-file:hover {
+  background: #000080;
+  color: white;
+}
+
+.file-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.explorer-file.selected {
+  background: #000080;
+  color: white;
+}
+
+#visitor-counter {
+  position: fixed;
+  bottom: 6px;
+  right: 10px;
+  font-family: "Pixelated MS Sans Serif", Arial;
+  font-size: 11px;
+}
+
+#desktop-pet {
+  position: absolute;
+  bottom: 80px;
+  left: 200px;
+
+  width: 48px;
+  height: 48px;
+
+  pointer-events: none;
+}
+
+#desktop-pet img {
+  width: 100%;
+  image-rendering: pixelated;
+}
+
+#badge-bar {
+
+  position: fixed;
+  bottom: 45px;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 6px;
+
+  padding: 4px;
+
+}
+
+#badge-bar img {
+
+  width: 88px;
+  height: 31px;
+
+  image-rendering: pixelated;
+
+}
+
+.links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.links-list li {
+  margin-bottom: 6px;
+}
+
+.links-list a {
+  color: #0000ff;
+  text-decoration: underline;
+}

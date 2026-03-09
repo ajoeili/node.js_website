@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RetroNodeOS</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <link rel="stylesheet" href="../assets/css/desktop.css">
+</head>
+
+<!---
+
+This website was made for my Node.js class in the Spring of 2026.
+It is a love letter to early internet culture, inspired by very cool
+web developers all over the small web.
+
+I have listed some inspiration in the links section.
+Feel free to borrow, modify and steal whatever you want <3
+
+--->
+
+<body>
+
+<div id="desktop" class="desktop">
+
+    <div class="desktop-icons">
+
+        <div class="icon" data-app="computer">
+            <img src="../assets/icons/Monitor.ico">
+            <span>My Computer</span>
+        </div>
+
+        <div class="icon" data-app="about">
+            <img src="../assets/icons/Notebook.ico">
+            <span>About</span>
+        </div>
+
+        <div class="icon" data-app="projects">
+            <img src="../assets/icons/Folder.ico">
+            <span>Projects</span>
+        </div>
+
+        <div class="icon" data-app="guestbook">
+            <img src="../assets/icons/Notebook.ico">
+            <span>Guestbook</span>
+        </div>
+
+        <div class="icon" data-app="terminal">
+            <img src="../assets/icons/Keyboard.ico">
+            <span>Terminal</span>
+        </div>
+
+        <div class="icon" data-app="links">
+            <img src="../assets/icons/globe.png">
+            <span>Links</span>
+        </div>
+
+    </div>
+
+    <div id="windows"></div>
+
+    <div id="desktop-pet">
+        <img src="../assets/icons/bmo-bounce.gif">
+    </div>
+
+    <div class="taskbar">
+
+        <button id="start-button">
+            Start
+        </button>
+
+    </div>
+
+    <div id="start-menu" class="window start-menu">
+
+        <div class="start-menu-inner">
+
+            <div class="start-menu-sidebar">
+                RetroNodeOS
+            </div>
+
+            <div class="start-menu-items">
+
+                <div class="start-item" data-topic="intro">
+                    Node.js Introduction
+                </div>
+
+                <div class="start-item" data-topic="express">
+                    Express Basics
+                </div>
+
+                <div class="start-item" data-topic="routing">
+                    Routing
+                </div>
+
+                <div class="start-item" data-topic="middleware">
+                    Middleware
+                </div>
+
+                <hr>
+
+                <div class="start-item shutdown">
+                    Shut Down
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="badge-bar">
+
+        <img src="../assets/buttons/acab.gif">
+        <img src="../assets/buttons/best_free.gif">
+        <img src="../assets/buttons/bobbutton.gif">
+        <img src="../assets/buttons/built_notepad.gif">
+        <img src="../assets/buttons/construction.gif">
+        <img src="../assets/buttons/fediverse.gif">
+        <img src="../assets/buttons/bestvw.gif">
+
+</div>
+
+<footer>
+    <div id="visitor-counter">
+        Visitors: loading...
+    </div>
+</footer>
+
+<script src="../js/boot.js"></script>
+<script src="../js/desktop.js"></script>
+<script src="../js/titles.js"></script>
+<script src="../js/cursor.js"></script>
+
+</body>
+</html>
