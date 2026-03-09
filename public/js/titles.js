@@ -1,5 +1,3 @@
-/* Script inspired by nynnechristoffersen.com */
-
 const titles = [
   "(•‿•) compiling…",
   "don't worry babe :: it's cached ♡",
@@ -9,6 +7,7 @@ const titles = [
   "intersectional arrays[] ♡",
   "(｡╯︵╰｡) 404",
   "cringe but open source ♡",
+  "hyperfocused hypertext"
   "everything already exists ::",
   "404 motivation not found",
   "ping reality ~ ~ ~",

@@ -1,37 +1,13 @@
-/* =========================================================
-   GLOBAL STATE
-   ---------------------------------------------------------
-   Keeps track of window layering and cascade position.
-   ========================================================= */
-
 let highestZ = 1;
 let windowOffset = 0;
-
-
-/* =========================================================
-   APPLICATION STARTUP
-   ---------------------------------------------------------
-   Wait until the DOM is loaded before initializing
-   the desktop environment.
-   ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   initDesktop();
 });
 
-
-/* =========================================================
-   DESKTOP INITIALIZATION
-   ---------------------------------------------------------
-   Sets up icons, start menu, visitor counter and
-   desktop interactions.
-   ========================================================= */
-
 function initDesktop() {
 
   startDesktopPet();
-
-  /* ---------- Desktop icon selection ---------- */
 
   const icons = document.querySelectorAll(".icon");
 
@@ -40,24 +16,23 @@ function initDesktop() {
     icon.addEventListener("click", () => {
 
       icons.forEach(i => i.classList.remove("selected"));
+
       icon.classList.add("selected");
 
     });
 
   });
 
-  /* ---------- Clicking empty desktop clears selection ---------- */
-
   document.getElementById("desktop").addEventListener("click", (e) => {
 
     if (!e.target.closest(".icon")) {
+
       document.querySelectorAll(".icon")
         .forEach(i => i.classList.remove("selected"));
+
     }
 
   });
-
-  /* ---------- Icon double click (open app) ---------- */
 
   icons.forEach(icon => {
 
@@ -72,15 +47,16 @@ function initDesktop() {
 
   });
 
-  /* ---------- Start menu ---------- */
-
   const startButton = document.getElementById("start-button");
   const startMenu = document.getElementById("start-menu");
 
   startButton.addEventListener("click", () => {
 
-    startMenu.style.display =
-      startMenu.style.display === "block" ? "none" : "block";
+    if (startMenu.style.display === "block") {
+      startMenu.style.display = "none";
+    } else {
+      startMenu.style.display = "block";
+    }
 
   });
 
@@ -94,8 +70,6 @@ function initDesktop() {
     }
 
   });
-
-  /* ---------- Start menu items ---------- */
 
   document.querySelectorAll(".start-item").forEach(item => {
 
@@ -111,8 +85,6 @@ function initDesktop() {
 
   });
 
-  /* ---------- Visitor counter ---------- */
-
   fetch("/api/visitors")
     .then(res => res.json())
     .then(data => {
@@ -120,29 +92,22 @@ function initDesktop() {
       const counter = document.getElementById("visitor-counter");
 
       if (counter) {
-        counter.textContent =
-          "Visitors: " + String(data.count).padStart(6, "0");
+        counter.textContent = "Visitors: " + String(data.count).padStart(6, "0");
       }
 
     });
 
 }
 
-
-/* =========================================================
-   WINDOW MANAGEMENT
-   ---------------------------------------------------------
-   Creates new windows, handles layering and cascading.
-   ========================================================= */
-
 function openWindow(app) {
 
   const windowsContainer = document.getElementById("windows");
+
   const windowElement = document.createElement("div");
 
   windowElement.className = "window app-window";
 
-  windowElement.innerHTML = `
+  windowElement.innerHTML = 
     <div class="title-bar">
       <div class="title-bar-text">${app}</div>
 
@@ -154,15 +119,12 @@ function openWindow(app) {
     <div class="window-body">
       ${getAppContent(app)}
     </div>
-  `;
-
-  /* ---------- Window cascade positioning ---------- */
+  ;
 
   windowElement.style.top = 120 + windowOffset + "px";
   windowElement.style.left = 200 + windowOffset + "px";
-  windowOffset += 20;
 
-  /* ---------- Window stacking ---------- */
+  windowOffset += 20;
 
   windowElement.style.zIndex = ++highestZ;
 
@@ -172,28 +134,24 @@ function openWindow(app) {
 
   makeDraggable(windowElement);
 
-  /* ---------- Close button ---------- */
-
   windowElement
     .querySelector("[aria-label='Close']")
     .onclick = () => windowElement.remove();
 
   windowsContainer.appendChild(windowElement);
 
-  /* ---------- Explorer file double click ---------- */
+    windowElement.querySelectorAll(".explorer-file").forEach(file => {
 
-  windowElement.querySelectorAll(".explorer-file").forEach(file => {
+        file.addEventListener("dblclick", () => {
 
-    file.addEventListener("dblclick", () => {
+            const project = file.dataset.project;
 
-      const project = file.dataset.project;
-      openWindow(project);
+            openWindow(project);
+
+        });
 
     });
 
-  });
-
-  /* ---------- Terminal initialization ---------- */
 
   if (app === "terminal") {
     initTerminal(windowElement);
@@ -201,58 +159,255 @@ function openWindow(app) {
 
 }
 
-
-/* =========================================================
-   WINDOW CONTENT ROUTER
-   ---------------------------------------------------------
-   Returns HTML content for each "application".
-   ========================================================= */
-
 function getAppContent(app) {
 
-  /* ---------- About window ---------- */
+if (app === "about") {
+    return 
+        <div class="notepad">
 
-  if (app === "about") {
-    return ` ... `;
-  }
+            <div class="notepad-menu">
+                File Edit Format View Help
+            </div>
 
-  /* ---------- Projects explorer ---------- */
+            <textarea class="notepad-text">
 
-  if (app === "projects") {
-    return ` ... `;
-  }
+    About.txt
 
-  /* ---------- Individual project pages ---------- */
+    Hi!
 
-  if (app === "project_guestbook") { return ` ... `; }
-  if (app === "project_routing") { return ` ... `; }
-  if (app === "project_middleware") { return ` ... `; }
+    This website was built
+    for my Node.js class.
 
-  /* ---------- Guestbook ---------- */
+    Features so far:
 
-  if (app === "guestbook") {
-    return `<p>Open the terminal to sign the guestbook.</p>`;
-  }
+    - Retro Windows 98 desktop
+    - Draggable windows
+    - Start menu
+    - Terminal guestbook
+    - Node.js backend
 
-  /* ---------- Terminal ---------- */
+    Future ideas:
 
-  if (app === "terminal") {
-    return ` ... `;
-  }
+    - Visitor counter
+    - File explorer for projects
+    - More terminal commands
 
-  /* ---------- Links ---------- */
+                </textarea>
 
-  if (app === "links") {
-    return ` ... `;
-  }
+            </div>
+        ;
+    }
 
-  return "<p>Application not found.</p>";
+if (app === "projects") {
+    return 
+        <div class="explorer">
+
+            <div class="explorer-header">
+                📁 Projects
+            </div>
+
+            <div class="explorer-files">
+
+                <div class="explorer-file" data-project="project_guestbook">
+                 <img src="/assets/icons/file.png" class="file-icon">
+                    <span>guestbook-api</span>
+                </div>
+
+                <div class="explorer-file" data-project="project_routing">
+                     <img src="/assets/icons/file.png" class="file-icon">
+                        <span>express-routing</span>
+                </div>
+
+                <div class="explorer-file" data-project="project_middleware">
+                     <img src="/assets/icons/file.png" class="file-icon">
+                        <span>middleware-demo</span>
+                </div>
+
+            </div>
+
+        </div>
+    ;
 }
 
+if (app === "project_guestbook") {
+    return 
+        <h3>Guestbook API</h3>
+        <p>
+        A simple Node.js + Express API where visitors
+        can leave messages through the terminal.
+        </p>
+    ;
+}
 
-/* =========================================================
-   WINDOW DRAGGING
-   ========================================================= */
+if (app === "project_routing") {
+    return 
+        <h3>Express Routing</h3>
+        <p>
+        Demonstrates how routes work in Express
+        using GET and POST requests.
+        </p>
+    ;
+}
+
+if (app === "project_middleware") {
+    return 
+        <h3>Middleware Demo</h3>
+        <p>
+        Example showing how Express middleware
+        processes requests before reaching routes.
+        </p>
+    ;
+}
+
+  if (app === "guestbook") {
+    return 
+      <p>Open the terminal to sign the guestbook.</p>
+    ;
+  }
+
+  if (app === "terminal") {
+    return 
+      <div class="terminal">
+
+        <div id="terminal-output"></div>
+
+        <div class="terminal-input-line">
+          <span>C:\\></span>
+          <input id="terminal-input" autocomplete="off">
+        </div>
+
+      </div>
+    ;
+  }
+
+  if (app === "computer") {
+      return 
+          <div class="explorer">
+
+              <div class="explorer-header">
+                  My Computer
+              </div>
+
+              <div class="explorer-files">
+
+                  <div class="explorer-file">
+                      <img src="/assets/icons/Folder.ico" class="file-icon">
+                      <span>Skills</span>
+                  </div>
+
+                  <div class="explorer-file">
+                      <img src="/assets/icons/Folder.ico" class="file-icon">
+                      <span>Node.js Topics</span>
+                  </div>
+
+                  <div class="explorer-file">
+                      <img src="/assets/icons/Folder.ico" class="file-icon">
+                      <span>Projects</span>
+                  </div>
+
+              </div>
+
+          </div>
+      ;
+  }
+
+  if (app === "skills") {
+      return 
+          <h3>Skills</h3>
+          <ul>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+              <li>Node.js</li>
+              <li>Express</li>
+          </ul>
+      ;
+  }
+
+  if (app === "node_topics") {
+      return 
+          <h3>Node.js Topics</h3>
+          <ul>
+              <li>Express servers</li>
+              <li>Routing</li>
+              <li>Middleware</li>
+              <li>APIs</li>
+              <li>JSON data storage</li>
+          </ul>
+      ;
+  }
+
+if (app === "links") {
+  return 
+    <div class="links-window">
+
+      <p>Cool sites that inspire me:</p>
+
+      <ul class="links-list">
+
+        <li>▶
+          <a href="https://www.wetlegband.com" target="_blank">
+            wetlegband.com
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://www.hayleywilliams.net" target="_blank">
+            hayleywilliams.net
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://www.nynnechristoffersen.com" target="_blank">
+            nynnechristoffersen.com
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://localghost.dev/" target="_blank">
+            localghost.dev
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://github.com/matt-auckland/retro-css" target="_blank">
+            retro css
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://cyber.dabamos.de/88x31/index2.html" target="_blank">
+            retro buttons
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://www.rw-designer.com/gallery?search=retro+windows+icons" target="_blank">
+            retro windows icons
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://win98icons.alexmeub.com/" target="_blank">
+            windows 98 icons
+          </a>
+        </li>
+
+        <li>▶
+          <a href="https://1dceffects.tumblr.com/" target="_blank">
+            retro tumblr cursor scripts
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  ;
+}
+
+  return "<p>Application not found.</p>";
+
+}
 
 function makeDraggable(windowElement) {
 
@@ -287,11 +442,6 @@ function makeDraggable(windowElement) {
   });
 
 }
-
-
-/* =========================================================
-   ICON DRAGGING
-   ========================================================= */
 
 function makeIconDraggable(icon) {
 
@@ -328,11 +478,6 @@ function makeIconDraggable(icon) {
   });
 
 }
-
-
-/* =========================================================
-   TERMINAL SYSTEM
-   ========================================================= */
 
 function initTerminal(windowElement) {
 
@@ -379,7 +524,6 @@ function handleCommand(cmd, output) {
     printLine(output, "read");
 
     return;
-
   }
 
   if (cmd === "guestbook") {
@@ -389,7 +533,6 @@ function handleCommand(cmd, output) {
     printLine(output, "read  - read messages");
 
     return;
-
   }
 
   if (cmd === "sign") {
@@ -409,11 +552,6 @@ function handleCommand(cmd, output) {
   printLine(output, "Unknown command");
 
 }
-
-
-/* =========================================================
-   DESKTOP PET
-   ========================================================= */
 
 function startDesktopPet() {
 
