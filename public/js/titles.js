@@ -7,7 +7,7 @@ const titles = [
   "intersectional arrays[] ♡",
   "(｡╯︵╰｡) 404",
   "cringe but open source ♡",
-  "hyperfocused hypertext"
+  "hyperfocused hypertext",
   "everything already exists ::",
   "404 motivation not found",
   "ping reality ~ ~ ~",

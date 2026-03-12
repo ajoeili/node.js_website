@@ -107,9 +107,9 @@ function openWindow(app) {
 
   windowElement.className = "window app-window";
 
-  windowElement.innerHTML = 
+  windowElement.innerHTML = `
     <div class="title-bar">
-      <div class="title-bar-text">${app}</div>
+      <div class="title-bar-text"></div>
 
       <div class="title-bar-controls">
         <button aria-label="Close"></button>
@@ -119,7 +119,7 @@ function openWindow(app) {
     <div class="window-body">
       ${getAppContent(app)}
     </div>
-  ;
+  `;
 
   windowElement.style.top = 120 + windowOffset + "px";
   windowElement.style.left = 200 + windowOffset + "px";
@@ -152,6 +152,24 @@ function openWindow(app) {
 
     });
 
+  // Load page content from HTML files
+  const pageContent = windowElement.querySelector(".page-content");
+  if (pageContent) {
+    const pageName = pageContent.dataset.page;
+    fetch(`/pages/${pageName}.html`)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const bodyContent = doc.body.innerHTML;
+        pageContent.innerHTML = bodyContent;
+      })
+      .catch(error => {
+        pageContent.innerHTML = "<p>Error loading page.</p>";
+      });
+  }
+
+
 
   if (app === "terminal") {
     initTerminal(windowElement);
@@ -161,8 +179,8 @@ function openWindow(app) {
 
 function getAppContent(app) {
 
-if (app === "about") {
-    return 
+if (app === "computer") {
+    return `
         <div class="notepad">
 
             <div class="notepad-menu">
@@ -170,8 +188,6 @@ if (app === "about") {
             </div>
 
             <textarea class="notepad-text">
-
-    About.txt
 
     Hi!
 
@@ -185,88 +201,97 @@ if (app === "about") {
     - Start menu
     - Terminal guestbook
     - Node.js backend
+    - Little BMO desktop pet
+    - Links to cool sites
+    - Notes from class
+    - Projects
+    - Visitor counter
+    - Old school buttons
 
     Future ideas:
 
-    - Visitor counter
-    - File explorer for projects
-    - More terminal commands
+    - Make the desktop pet speak
+      and interact
+    - Show real guestbook messages
+      stored on the server
+    - More interactive terminal
+      commands
+    - Maybe a minesweeper game?
 
                 </textarea>
 
             </div>
-        ;
+        `;
     }
 
-if (app === "projects") {
-    return 
+if (app === "notes") {
+    return `
         <div class="explorer">
 
             <div class="explorer-header">
-                📁 Projects
+                Notes from Class
             </div>
 
             <div class="explorer-files">
 
-                <div class="explorer-file" data-project="project_guestbook">
+                <div class="explorer-file" data-project="code_con">
                  <img src="/assets/icons/file.png" class="file-icon">
-                    <span>guestbook-api</span>
+                    <span>Code Conventions</span>
                 </div>
 
-                <div class="explorer-file" data-project="project_routing">
+                <div class="explorer-file" data-project="var_data_func">
                      <img src="/assets/icons/file.png" class="file-icon">
-                        <span>express-routing</span>
+                        <span>Variables, Datatypes and Functions</span>
                 </div>
 
-                <div class="explorer-file" data-project="project_middleware">
+                <div class="explorer-file" data-project="rest_express">
                      <img src="/assets/icons/file.png" class="file-icon">
-                        <span>middleware-demo</span>
+                        <span>REST API and Express</span>
+                </div>
+
+                <div class="explorer-file" data-project="tools_man_mod">
+                     <img src="/assets/icons/file.png" class="file-icon">
+                        <span>Build Tools, Package Managers and Modules</span>
+                </div>
+
+                <div class="explorer-file" data-project="cli_ser_dep">
+                     <img src="/assets/icons/file.png" class="file-icon">
+                        <span>Client-Server Model and Deployment</span>
                 </div>
 
             </div>
 
         </div>
-    ;
+    `;
 }
 
-if (app === "project_guestbook") {
-    return 
-        <h3>Guestbook API</h3>
-        <p>
-        A simple Node.js + Express API where visitors
-        can leave messages through the terminal.
-        </p>
-    ;
+if (app === "code_con") {
+    return `<div class="page-content" data-page="code-conv"></div>`;
 }
 
-if (app === "project_routing") {
-    return 
-        <h3>Express Routing</h3>
-        <p>
-        Demonstrates how routes work in Express
-        using GET and POST requests.
-        </p>
-    ;
+if (app === "var_data_func") {
+    return `<div class="page-content" data-page="var-data-func"></div>`;
 }
 
-if (app === "project_middleware") {
-    return 
-        <h3>Middleware Demo</h3>
-        <p>
-        Example showing how Express middleware
-        processes requests before reaching routes.
-        </p>
-    ;
+if (app === "rest_express") {
+    return `<div class="page-content" data-page="rest-express"></div>`;
 }
 
+if (app === "tools_man_mod") {
+    return `<div class="page-content" data-page="tools-man-mod"></div>`;
+}
+
+if (app === "cli_ser_dep") {
+    return `<div class="page-content" data-page="cli-ser-dep"></div>`;
+}
   if (app === "guestbook") {
-    return 
+    return `
       <p>Open the terminal to sign the guestbook.</p>
-    ;
+    `;
   }
 
   if (app === "terminal") {
-    return 
+    return `
       <div class="terminal">
 
         <div id="terminal-output"></div>
@@ -277,68 +302,11 @@ if (app === "project_middleware") {
         </div>
 
       </div>
-    ;
-  }
-
-  if (app === "computer") {
-      return 
-          <div class="explorer">
-
-              <div class="explorer-header">
-                  My Computer
-              </div>
-
-              <div class="explorer-files">
-
-                  <div class="explorer-file">
-                      <img src="/assets/icons/Folder.ico" class="file-icon">
-                      <span>Skills</span>
-                  </div>
-
-                  <div class="explorer-file">
-                      <img src="/assets/icons/Folder.ico" class="file-icon">
-                      <span>Node.js Topics</span>
-                  </div>
-
-                  <div class="explorer-file">
-                      <img src="/assets/icons/Folder.ico" class="file-icon">
-                      <span>Projects</span>
-                  </div>
-
-              </div>
-
-          </div>
-      ;
-  }
-
-  if (app === "skills") {
-      return 
-          <h3>Skills</h3>
-          <ul>
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
-              <li>Node.js</li>
-              <li>Express</li>
-          </ul>
-      ;
-  }
-
-  if (app === "node_topics") {
-      return 
-          <h3>Node.js Topics</h3>
-          <ul>
-              <li>Express servers</li>
-              <li>Routing</li>
-              <li>Middleware</li>
-              <li>APIs</li>
-              <li>JSON data storage</li>
-          </ul>
-      ;
+    `;
   }
 
 if (app === "links") {
-  return 
+  return `
     <div class="links-window">
 
       <p>Cool sites that inspire me:</p>
@@ -402,7 +370,7 @@ if (app === "links") {
       </ul>
 
     </div>
-  ;
+  `;
 }
 
   return "<p>Application not found.</p>";
@@ -554,7 +522,7 @@ function handleCommand(cmd, output) {
 }
 
 function startDesktopPet() {
-
+  // TODO: Make the pet speak and interact
   const pet = document.getElementById("desktop-pet");
   const desktop = document.getElementById("desktop");
 

@@ -40,6 +40,7 @@ html, body {
 .icon:nth-child(4) { top: 320px; left: 20px; }
 .icon:nth-child(5) { top: 420px; left: 20px; }
 .icon:nth-child(6) { top: 20px; left: 1120px; }
+.icon:nth-child(7) { top: 120px; left: 1120px; }
 
 
 .icon img {
@@ -303,3 +304,12 @@ html, body {
   color: #0000ff;
   text-decoration: underline;
 }
+
+.page-content {
+  padding: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  color: black;
+}
+
