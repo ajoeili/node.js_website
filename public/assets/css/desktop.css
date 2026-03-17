@@ -1,62 +1,62 @@
-/* Prevent page scrolling and remove default margins */
+/* =========================
+   BASE / RESET
+========================= */
 
 html, body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-/* Desktop */
+/* =========================
+   DESKTOP
+========================= */
 
 .desktop {
   background: teal;
   height: 100vh;
-  padding: 20px;
-  padding-bottom: 60px; /* prevents icons under taskbar */
+  padding: 20px 20px 60px;
   box-sizing: border-box;
   position: relative;
 }
 
-/* Desktop icons */
+/* =========================
+   DESKTOP ICONS
+========================= */
 
 .desktop-icons {
-  position: relative;
-  width: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 20px;
+
+  width: 100%;
+  max-width: 500px;
 }
 
 .icon {
+  position: absolute;
+  width: 80px;
+  padding: 4px;
+
   color: white;
   text-align: center;
-  cursor: pointer;
   font-size: 12px;
-  width: 90px;
-  padding: 4px;
-  position: absolute;
+
+  cursor: pointer;
 }
 
-.icon:nth-child(1) { top: 20px; left: 20px; }
-.icon:nth-child(2) { top: 120px; left: 20px; }
-.icon:nth-child(3) { top: 220px; left: 20px; }
-.icon:nth-child(4) { top: 320px; left: 20px; }
-.icon:nth-child(5) { top: 420px; left: 20px; }
-.icon:nth-child(6) { top: 20px; left: 1120px; }
-.icon:nth-child(7) { top: 120px; left: 1120px; }
-
-
 .icon img {
+  display: block;
+  margin: 0 auto 6px;
+
   width: 48px;
   height: 48px;
-
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 6px;
 
   image-rendering: pixelated;
 }
 
 .icon:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .icon.selected {
@@ -64,78 +64,77 @@ html, body {
   color: white;
 }
 
-/* Application windows */
+/* =========================
+   WINDOWS
+========================= */
 
 .app-window {
-  width: 300px;
   position: absolute;
+
+  width: min(300px, 90vw);
+
   top: 120px;
-  left: 200px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* Taskbar */
+/* =========================
+   TASKBAR
+========================= */
 
-.taskbar{
+.taskbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-
-  background: #c0c0c0;
 
   display: flex;
   align-items: center;
 
   padding: 2px;
 
+  background: #c0c0c0;
   box-shadow: inset 1px 1px white, inset -1px -1px gray;
 }
 
-/* Start button */
-
-#start-button{
-  font-weight: bold;
+#start-button {
   min-width: 70px;
+  font-weight: bold;
 }
 
-/* Start menu */
+/* =========================
+   START MENU
+========================= */
 
-.start-menu{
+.start-menu {
   position: fixed;
   bottom: 34px;
   left: 4px;
 
   width: 260px;
-
   display: none;
 }
 
-.start-menu-inner{
+.start-menu-inner {
   display: flex;
 }
 
-/* Start menu sidebar */
-
-.start-menu-sidebar{
+.start-menu-sidebar {
   width: 40px;
-
-  background: linear-gradient(#000080,#1084d0);
-
-  color: white;
-
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  background: linear-gradient(#000080, #1084d0);
+  color: white;
   font-weight: bold;
+
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
 }
 
-/* Start menu items */
-
-.start-menu-items{
+.start-menu-items {
   flex: 1;
   padding: 6px;
 
@@ -144,22 +143,28 @@ html, body {
   gap: 4px;
 }
 
-.start-item{
+.start-item {
   padding: 4px;
   cursor: pointer;
 }
 
-.start-item:hover{
+.start-item:hover {
   background: #000080;
   color: white;
 }
 
+/* =========================
+   TERMINAL
+========================= */
+
 .terminal {
+  height: 200px;
+  padding: 6px;
+
   background: black;
   color: #00ff00;
   font-family: monospace;
-  height: 200px;
-  padding: 6px;
+
   overflow-y: auto;
 }
 
@@ -169,13 +174,20 @@ html, body {
 }
 
 #terminal-input {
+  flex: 1;
+
   background: black;
   color: #00ff00;
+
   border: none;
   outline: none;
-  flex: 1;
+
   font-family: monospace;
 }
+
+/* =========================
+   NOTEPAD
+========================= */
 
 .notepad {
   display: flex;
@@ -184,28 +196,32 @@ html, body {
 }
 
 .notepad-menu {
-  background: #c0c0c0;
   padding: 2px 6px;
-  font-size: 12px;
+
+  background: #c0c0c0;
   border-bottom: 1px solid #808080;
+
+  font-size: 12px;
 }
 
 .notepad-text {
   flex: 1;
-
-  border: none;
-  outline: none;
-
-  resize: none;
-
-  font-family: "Courier New", monospace;
-  font-size: 13px;
-
   padding: 6px;
 
   background: white;
   color: black;
+
+  border: none;
+  outline: none;
+  resize: none;
+
+  font-family: "Courier New", monospace;
+  font-size: 13px;
 }
+
+/* =========================
+   EXPLORER
+========================= */
 
 .explorer {
   display: flex;
@@ -228,7 +244,8 @@ html, body {
   cursor: pointer;
 }
 
-.explorer-file:hover {
+.explorer-file:hover,
+.explorer-file.selected {
   background: #000080;
   color: white;
 }
@@ -238,15 +255,15 @@ html, body {
   height: 16px;
 }
 
-.explorer-file.selected {
-  background: #000080;
-  color: white;
-}
+/* =========================
+   MISC UI
+========================= */
 
 #visitor-counter {
   position: fixed;
   bottom: 6px;
   right: 10px;
+
   font-family: "Pixelated MS Sans Serif", Arial;
   font-size: 11px;
 }
@@ -268,28 +285,25 @@ html, body {
 }
 
 #badge-bar {
-
   position: fixed;
   bottom: 45px;
-
   left: 50%;
   transform: translateX(-50%);
 
   display: flex;
   gap: 6px;
-
   padding: 4px;
-
 }
 
 #badge-bar img {
-
   width: 88px;
   height: 31px;
-
   image-rendering: pixelated;
-
 }
+
+/* =========================
+   CONTENT
+========================= */
 
 .links-list {
   list-style: none;
@@ -306,10 +320,122 @@ html, body {
 }
 
 .page-content {
-  padding: 10px;
+  padding: 12px;
+
+  max-width: 260px;
   max-height: 250px;
+
   overflow-y: auto;
+
   background: white;
   color: black;
+
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
+.page-content h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.page-content h4 {
+  margin: 14px 0 6px;
+  font-size: 14px;
+}
+
+.page-content ul {
+  margin: 6px 0 10px;
+  padding-left: 18px;
+}
+
+.page-content li {
+  margin-bottom: 4px;
+}
+
+.page-content p {
+  margin: 6px 0 8px;
+}
+
+.page-content code {
+  background: #e0e0e0;
+  padding: 1px 3px;
+
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+}
+
+/* =========================
+   CODE BLOCK
+========================= */
+
+.code-block {
+  margin: 8px 0;
+  padding: 6px;
+
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.code-block code {
+  white-space: pre;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .desktop {
+    padding: 10px;
+  }
+
+  .desktop-icons {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 16px;
+  }
+
+  .icon {
+    font-size: 11px;
+  }
+
+  .icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .app-window {
+    width: 90%;
+    left: 5%;
+    top: 80px;
+  }
+
+  .page-content {
+    max-width: 100%;
+    max-height: none;
+  }
+
+  .notepad {
+    height: 200px;
+  }
+
+  #badge-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #badge-bar img {
+    width: 70px;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-window {
+    width: 95%;
+    left: 2.5%;
+    top: 60px;
+  }
+}

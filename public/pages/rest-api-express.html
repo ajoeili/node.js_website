@@ -1,0 +1,129 @@
+<!---
+REST and Express
+- REST API conventions vs Richardson Maturity Model
+- Sending data via GET requests
+- Express and creating a server from memory
+- Sending data with GET requests over HTTP and how to do it in Express
+- Serving HTML with Express
+- POST request and parsing the body in Express
+- Full CRUDable REST API that follows conventions
+- Serving static files in Express (security needs)
+ -->
+
+<h3>REST API and Express</h3>
+
+<p>
+    REST (Representational State Transfer) is a set of conventions for designing
+    web APIs. It defines how clients interact with servers and how resources are
+    represented and accessed over HTTP.
+</p>
+
+<h4>REST API Conventions</h4>
+
+<ul>
+    <li>APIs expose resources through URLs.</li>
+    <li>HTTP methods define the action performed on a resource.</li>
+    <li>Responses are usually sent as JSON.</li>
+    <li>APIs should be stateless, meaning each request contains all necessary information.</li>
+</ul>
+
+<h4>Richardson Maturity Model</h4>
+
+<p>
+    The Richardson Maturity Model measures how closely an API follows REST
+    principles. It has four levels:
+</p>
+
+<ul>
+    <li><strong>Level 0</strong> – Single endpoint with multiple operations.</li>
+    <li><strong>Level 1</strong> – Resources are separated into different URLs.</li>
+    <li><strong>Level 2</strong> – Proper use of HTTP methods like GET, POST, PUT, and DELETE.</li>
+    <li><strong>Level 3</strong> – Hypermedia links (HATEOAS) guide clients through the API.</li>
+</ul>
+
+<h4>Sending data with GET requests</h4>
+
+<p>
+    GET requests retrieves data from the server. Parameters are usually sent in
+    the URL as query parameters.
+</p>
+
+<pre class="code-block"><code>
+GET /users?id=5
+</code></pre>
+
+<h4>Express and creating a Server</h4>
+
+<p>
+    Express is a Node.js framework used to build web servers and APIs.
+    A basic server can be created by importing Express and defining routes.
+</p>
+
+<pre class="code-block"><code>
+const express = require("express");
+const app = express();
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+</code></pre>
+
+<h4>Handling GET requests in Express</h4>
+
+<p>
+    You can create routes that respond to GET requests and return data to the client.
+</p>
+
+<pre class="code-block"><code>
+app.get("/users", (req, res) => {
+  res.send("List of users");
+});
+</code></pre>
+
+<h4>Serving HTML with Express</h4>
+
+<p>
+    Express can also serve HTML files to the browser.
+</p>
+
+<pre class="code-block"><code>
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+</code></pre>
+
+<h4>POST requests and parsing the body</h4>
+
+<p>
+    POST requests send data to the server. In Express, middleware like
+    <code>express.json()</code> is used to parse incoming request bodies.
+</p>
+
+<pre class="code-block"><code>
+app.use(express.json());
+
+app.post("/users", (req, res) => {
+  const user = req.body;
+  res.send("User received");
+});
+</code></pre>
+
+<h4>CRUD operations in a REST API</h4>
+
+<ul>
+    <li><strong>GET</strong> – Retrieve data</li>
+    <li><strong>POST</strong> – Create new data</li>
+    <li><strong>PUT / PATCH</strong> – Update existing data</li>
+    <li><strong>DELETE</strong> – Remove data</li>
+</ul>
+
+<h4>Serving static files</h4>
+
+<p>
+    Express can serve static files like CSS, images and JavaScript.
+    This should be done carefully to avoid exposing sensitive files or information.
+</p>
+
+<pre class="code-block"><code>
+app.use(express.static("public"));
+</code></pre>

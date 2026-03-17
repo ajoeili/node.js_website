@@ -1,39 +1,65 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
+const Database = require("better-sqlite3");
 
 const app = express();
 
-app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-// serve static files
+/* DATABASE */
+
+const db = new Database("guestbook.db");
+
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS guestbook (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`).run();
+
+/* MIDDLEWARE */
+
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const guestbook = [];
+function sanitize(text) {
+return text.replace(/[<>]/g, "");
+}
 
 app.get("/guestbook", (req, res) => {
-    res.json(guestbook);
+
+    const messages = db
+    .prepare("SELECT name, message, timestamp FROM guestbook ORDER BY id DESC")
+    .all();
+
+    res.render("guestbook", { messages });
 });
 
-app.post("/guestbook", (req, res) => {
+app.post("/api/guestbook", (req, res) => {
 
     const { name, message } = req.body;
 
-    guestbook.push({
-        name,
-        message,
-        date: new Date().toLocaleString()
-    });
+    if(!name || !message) {
+        return res.status(400).json({ error: "Name and message are required" });
+    }
+
+    const stmt = db.prepare(`
+    INSERT INTO guestbook (name, message)
+    VALUES (?, ?)
+    `);
+
+    stmt.run(
+    sanitize(name),
+    sanitize(message),
+    );
 
     res.json({ success: true });
 
 });
-
-app.listen(3000, () => {
-    console.log("Server running at http://localhost:3000");
-});
-
-
-const fs = require("fs");
 
 const counterFile = path.join(__dirname, "visitorCount.json");
 
@@ -48,3 +74,10 @@ app.get("/api/visitors", (req, res) => {
     res.json({ count: data.count });
 
 });
+
+app.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+
+
+

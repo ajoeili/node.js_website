@@ -5,11 +5,33 @@ document.addEventListener("DOMContentLoaded", () => {
   initDesktop();
 });
 
+
+
+/* INITIATE DESKTOP */
+
 function initDesktop() {
 
   startDesktopPet();
 
   const icons = document.querySelectorAll(".icon");
+
+    const spacingX = 100;
+    const spacingY = 100;
+    const startX = 20;
+    const startY = 20;
+
+    const taskbarHeight = 40;
+    const usableHeight = window.innerHeight - taskbarHeight;
+
+    const iconsPerColumn = Math.floor(usableHeight / spacingY);
+
+    icons.forEach((icon, i) => {
+      const col = Math.floor(i / iconsPerColumn);
+      const row = i % iconsPerColumn;
+
+      icon.style.left = startX + col * spacingX + "px";
+      icon.style.top = startY + row * spacingY + "px";
+    });
 
   icons.forEach(icon => {
 
@@ -99,6 +121,8 @@ function initDesktop() {
 
 }
 
+/* WINDOW MANAGEMENT */
+
 function openWindow(app) {
 
   const windowsContainer = document.getElementById("windows");
@@ -154,15 +178,25 @@ function openWindow(app) {
 
   // Load page content from HTML files
   const pageContent = windowElement.querySelector(".page-content");
+
   if (pageContent) {
+
     const pageName = pageContent.dataset.page;
+
     fetch(`/pages/${pageName}.html`)
       .then(response => response.text())
       .then(html => {
+
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const bodyContent = doc.body.innerHTML;
+
         pageContent.innerHTML = bodyContent;
+
+        if (pageName === "guestbook") {
+            loadGuestbookMessages(pageContent);
+        }
+
       })
       .catch(error => {
         pageContent.innerHTML = "<p>Error loading page.</p>";
@@ -176,6 +210,8 @@ function openWindow(app) {
   }
 
 }
+
+/* APPLICATION CONTENT */
 
 function getAppContent(app) {
 
@@ -204,14 +240,17 @@ if (app === "computer") {
     - Little BMO desktop pet
     - Links to cool sites
     - Notes from class
-    - Projects
+    - Projects folder
     - Visitor counter
-    - Old school buttons
+    - Old school buttons and icons
 
     Future ideas:
 
+    - Detailed project pages with code snippets and explanations
     - Make the desktop pet speak
       and interact
+    - Better mobile responsiveness
+    - Serious refactoring and code cleanup
     - Show real guestbook messages
       stored on the server
     - More interactive terminal
@@ -234,27 +273,27 @@ if (app === "notes") {
 
             <div class="explorer-files">
 
-                <div class="explorer-file" data-project="code_con">
+                <div class="explorer-file" data-project="code_conventions">
                  <img src="/assets/icons/file.png" class="file-icon">
                     <span>Code Conventions</span>
                 </div>
 
-                <div class="explorer-file" data-project="var_data_func">
+                <div class="explorer-file" data-project="variables_datatypes_functions">
                      <img src="/assets/icons/file.png" class="file-icon">
                         <span>Variables, Datatypes and Functions</span>
                 </div>
 
-                <div class="explorer-file" data-project="rest_express">
+                <div class="explorer-file" data-project="rest_api_express">
                      <img src="/assets/icons/file.png" class="file-icon">
                         <span>REST API and Express</span>
                 </div>
 
-                <div class="explorer-file" data-project="tools_man_mod">
+                <div class="explorer-file" data-project="tools_managers_modules">
                      <img src="/assets/icons/file.png" class="file-icon">
                         <span>Build Tools, Package Managers and Modules</span>
                 </div>
 
-                <div class="explorer-file" data-project="cli_ser_dep">
+                <div class="explorer-file" data-project="client_server_deployment">
                      <img src="/assets/icons/file.png" class="file-icon">
                         <span>Client-Server Model and Deployment</span>
                 </div>
@@ -265,32 +304,27 @@ if (app === "notes") {
     `;
 }
 
-if (app === "code_con") {
-    return `<div class="page-content" data-page="code-conv"></div>`;
+if (app === "code_conventions") {
+    return `<div class="page-content" data-page="code-conventions"></div>`;
 }
 
-if (app === "var_data_func") {
-    return `<div class="page-content" data-page="var-data-func"></div>`;
+if (app === "variables_datatypes_functions") {
+    return `<div class="page-content" data-page="variables-datatypes-functions"></div>`;
 }
 
-if (app === "rest_express") {
-    return `<div class="page-content" data-page="rest-express"></div>`;
+if (app === "rest_api_express") {
+    return `<div class="page-content" data-page="rest-api-express"></div>`;
 }
 
-if (app === "tools_man_mod") {
-    return `<div class="page-content" data-page="tools-man-mod"></div>`;
+if (app === "tools_managers_modules") {
+    return `<div class="page-content" data-page="tools-managers-modules"></div>`;
 }
 
-if (app === "cli_ser_dep") {
-    return `<div class="page-content" data-page="cli-ser-dep"></div>`;
+if (app === "client_server_deployment") {
+    return `<div class="page-content" data-page="client-server-deployment"></div>`;
 }
-  if (app === "guestbook") {
-    return `
-      <p>Open the terminal to sign the guestbook.</p>
-    `;
-  }
 
-  if (app === "terminal") {
+if (app === "terminal") {
     return `
       <div class="terminal">
 
@@ -304,6 +338,10 @@ if (app === "cli_ser_dep") {
       </div>
     `;
   }
+
+if (app === "guestbook") {
+    return `<div class="page-content" data-page="guestbook"></div>`;
+}
 
 if (app === "links") {
   return `
@@ -377,6 +415,8 @@ if (app === "links") {
 
 }
 
+/* DRAGGABLE WINDOWS AND ICONS */
+
 function makeDraggable(windowElement) {
 
   const titleBar = windowElement.querySelector(".title-bar");
@@ -410,6 +450,8 @@ function makeDraggable(windowElement) {
   });
 
 }
+
+/* Icons should be draggable too, but without the title bar constraint */
 
 function makeIconDraggable(icon) {
 
@@ -447,12 +489,21 @@ function makeIconDraggable(icon) {
 
 }
 
+/* TERMINAL APPLICATION */
+
 function initTerminal(windowElement) {
 
   const input = windowElement.querySelector("#terminal-input");
   const output = windowElement.querySelector("#terminal-output");
 
   input.focus();
+
+  printLine(output, "Leave a message in the guestbook ~");
+  printLine(output, "");
+  printLine(output, "Sign - write your message");
+  printLine(output, "Read - open the guestbook");
+  printLine(output, "");
+
 
   input.addEventListener("keydown", (e) => {
 
@@ -470,6 +521,8 @@ function initTerminal(windowElement) {
 
 }
 
+/* Helper function to print a line of text in the terminal output */
+
 function printLine(output, text) {
 
   const line = document.createElement("div");
@@ -481,45 +534,115 @@ function printLine(output, text) {
 
 }
 
+let guestbookState = null;
+let guestbookName = "";
+
+
+/* Handle terminal commands related to the guestbook */
+
 function handleCommand(cmd, output) {
+
+  if(guestbookState === "name") {
+
+    guestbookName = cmd;
+    guestbookState = "message";
+
+    printLine(output, "Enter your message:");
+    return;
+  }
+
+  if (guestbookState === "message") {
+
+    const message = cmd;
+
+    fetch("/api/guestbook", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        name: guestbookName,
+        message: message
+        })
+    })
+        .then(res => res.json())
+        .then(() => {
+            printLine(output, "Message added! Thank you.");
+            printLine(output, "--------------------------------");
+        });
+
+    guestbookState = null;
+    guestbookName = "";
+
+    return;
+  }
 
   if (cmd === "help") {
 
     printLine(output, "Commands:");
     printLine(output, "help");
-    printLine(output, "guestbook");
     printLine(output, "sign");
     printLine(output, "read");
 
     return;
   }
 
-  if (cmd === "guestbook") {
-
-    printLine(output, "Guestbook commands:");
-    printLine(output, "sign  - leave message");
-    printLine(output, "read  - read messages");
-
-    return;
-  }
-
   if (cmd === "sign") {
 
-    printLine(output, "Feature coming soon!");
+    guestbookState = "name";
+    printLine(output, "Enter your name:");
     return;
-
   }
 
   if (cmd === "read") {
-
-    printLine(output, "Guestbook empty.");
+    window.open("/guestbook");
     return;
-
   }
 
   printLine(output, "Unknown command");
+}
+
+
+/* Load guestbook messages from the server and display them in the guestbook window */
+
+function loadGuestbookMessages(container) {
+
+    const list = container.querySelector("#guestbook-messages");
+
+    fetch("/api/guestbook")
+        .then(res => res.json())
+        .then(messages => {
+
+            if (messages.length === 0) {
+                list.innerHTML = "<p>No messages yet.</p>";
+                return;
+            }
+
+            list.innerHTML = "";
+
+            messages.forEach(entry => {
+
+                const div = document.createElement("div");
+
+                div.innerHTML = `
+                    <p>
+                        <strong>${entry.name}</strong>
+                        <small>(${entry.timestamp})</small><br>
+                        ${entry.message}
+                    </p>
+                    <hr>
+                `;
+
+                list.appendChild(div);
+
+            });
+
+        });
 
 }
+
+
+/* DESKTOP PET */
 
 function startDesktopPet() {
   // TODO: Make the pet speak and interact

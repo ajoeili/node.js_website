@@ -1,0 +1,133 @@
+<!---
+ Tools, managers and modules:
+- Build tools and package managers
+- Package.json
+- Node_modules and why they shouldn't be pushed
+- Nodemon: Use case and limitations to development
+- Exporting and importing in frontend (both types) (type="module" attribute)
+- Commonjs vs ES Modules in Node.js (pros of using ES)
+- Npm init and meta data in package.json
+ -->
+
+<h3>Build Tools, Package Managers and Modules</h3>
+
+<p>
+    Build tools and package managers help developers manage dependencies,
+    organize projects and automate development tasks.
+    They are an important part of modern JavaScript and Node.js development.
+</p>
+
+<h4>Build Tools and Package Managers</h4>
+
+<ul>
+    <li>With <strong>Build tools</strong> you can automate tasks such as bundling, compiling and optimizing code.</li>
+    <li>Use <strong>Package managers</strong> to install and manage project dependencies.</li>
+    <li>For example <code>npm</code>, <code>yarn</code> and <code>pnpm</code>.</li>
+</ul>
+
+<h4>package.json</h4>
+
+<p>
+    The <code>package.json</code> file contains metadata about a project.
+    It defines dependencies, scripts, project information and configurations.
+</p>
+
+<pre class="code-block"><code>
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
+</code></pre>
+
+<h4>node_modules</h4>
+
+<p>
+    The <code>node_modules</code> folder contains all installed dependencies.
+    This folder can become very large and should not be committed to Git.
+</p>
+
+<ul>
+    <li>Dependencies are defined in <code>package.json</code>.</li>
+    <li>They can be reinstalled with <code>npm install</code>.</li>
+    <li>The folder is usually ignored via <code>.gitignore</code>.</li>
+</ul>
+
+<h4>Nodemon</h4>
+
+<p>
+    Nodemon is a development tool that automatically restarts a Node.js
+    server when code changes are detected.
+</p>
+
+<pre class="code-block"><code>
+npm install nodemon --save-dev
+</code></pre>
+
+<ul>
+    <li>Useful for development workflows.</li>
+    <li>But not intended for production environments.</li>
+</ul>
+
+<h4>Modules in JavaScript</h4>
+
+<p>
+    Modules allows code to be split into reusable files.
+    They help organize large applications and improve maintainability.
+</p>
+
+<h4>CommonJS vs ES Modules</h4>
+
+<ul>
+    <li><strong>CommonJS</strong> is the traditional Node.js module system.</li>
+    <li><strong>ES Modules (ESM)</strong> are the modern JavaScript standard.</li>
+</ul>
+
+<p><strong>CommonJS example:</strong></p>
+
+<pre class="code-block"><code>
+const math = require("./math.js");
+</code></pre>
+
+<p><strong>ES Modules example:</strong></p>
+
+<pre class="code-block"><code>
+import { add } from "./math.js";
+</code></pre>
+
+<p>
+    Advantages of ES Modules are fx better static analysis,
+    improved tooling support and compatibility with modern JavaScript.
+</p>
+
+<h4>Using ES Modules in the Browser</h4>
+
+<p>
+    In the frontend, ES modules can be enabled by adding the
+    <code>type="module"</code> attribute to a script tag.
+</p>
+
+<pre class="code-block"><code>
+<script type="module" src="app.js"></script>
+</code></pre>
+
+<h4>npm init</h4>
+
+<p>
+    The <code>npm init</code> command creates a new <code>package.json</code>
+    file and allows you to define project metadata.
+</p>
+
+<pre class="code-block"><code>
+npm init
+</code></pre>
+
+<ul>
+    <li>Project name</li>
+    <li>Version</li>
+    <li>Description</li>
+    <li>Entry file</li>
+    <li>License</li>
+</ul>

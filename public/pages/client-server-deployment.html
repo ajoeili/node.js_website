@@ -1,0 +1,97 @@
+<!---
+Client-server & deployment
+- Client-server model
+- Terminology of the URL
+- All the ways to send data from a client to a server
+- XXS (understands dangers and how to prevent it)
+- Deployment
+- Client-side redirection vs. server-side redirection
+ -->
+
+<h3>Client-Server Model and Deployment</h3>
+
+<p>
+    The client-server model is a software architecture that separates the
+    client (user interface) from the server (backend logic and data storage).
+    The client sends requests to the server and the server processes those
+    requests and returns responses.
+</p>
+
+<h4>Client-Server Model</h4>
+
+<ul>
+    <li><strong>Client</strong> – The part of the application the user interacts with (fx browser, app).</li>
+    <li><strong>Server</strong> – Handles logic, processes requests and manages data.</li>
+    <li><strong>Request</strong> – A message sent from the client to the server.</li>
+    <li><strong>Response</strong> – The data returned from the server to the client.</li>
+</ul>
+
+<p>
+    This architecture allows many clients to communicate with a single server
+    and helps separate frontend and backend responsibilities.
+</p>
+
+<h4>URL Terminology</h4>
+
+<p>A URL (Uniform Resource Locator) identifies the location of a resource on the web.</p>
+
+<pre class="code-block"><code>
+https://example.com:443/users?id=5
+</code></pre>
+
+<ul>
+    <li><strong>Protocol</strong> – https</li>
+    <li><strong>Domain</strong> – example.com</li>
+    <li><strong>Port</strong> – 443</li>
+    <li><strong>Path</strong> – /users</li>
+    <li><strong>Query parameters</strong> – ?id=5</li>
+</ul>
+
+<h4>Ways to send data from client to server</h4>
+
+<ul>
+    <li><strong>Query parameters</strong> – Sent in the URL with GET requests.</li>
+    <li><strong>Request body</strong> – Sent with POST, PUT or PATCH requests.</li>
+    <li><strong>Headers</strong> – Metadata such as authentication tokens.</li>
+    <li><strong>Cookies</strong> – Stored in the browser and sent automatically.</li>
+</ul>
+
+<h4>Cross-Site Scripting (XSS)</h4>
+
+<p>
+    Cross-Site Scripting (XSS) is a security vulnerability where malicious
+    JavaScript is injected into a website and executed in another user's browsers.
+</p>
+
+<ul>
+    <li>Never trust user input.</li>
+    <li>Escape or sanitize input before rendering it.</li>
+    <li>Avoid inserting raw HTML from users.</li>
+</ul>
+
+<h4>Deployment</h4>
+
+<p>
+    Deployment is the process of making an application available on the internet.
+    This usually involves running the server on a hosting platform.
+</p>
+
+<ul>
+    <li>Upload code to a server or cloud service.</li>
+    <li>Install dependencies.</li>
+    <li>Run the application.</li>
+</ul>
+
+<h4>Client-Side vs Server-Side Redirection</h4>
+
+<p><strong>Client-side redirection</strong> happens in the browser using JavaScript:</p>
+
+<pre class="code-block"><code>
+window.location.href = "/home";
+</code></pre>
+
+<p><strong>Server-side redirection</strong> happens on the server before the response is sent:</p>
+
+<pre class="code-block"><code>
+res.redirect("/home");
+</code></pre>
